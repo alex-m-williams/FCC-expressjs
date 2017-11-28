@@ -43,6 +43,7 @@ io.on('connection', function (socket) {
         return;
 
       socket.get('name', function (err, name) {
+        if (err) throw err;
         var data = {
           name: name,
           text: text
@@ -55,6 +56,7 @@ io.on('connection', function (socket) {
 
     socket.on('identify', function (name) {
       socket.set('name', String(name || 'Anonymous'), function (err) {
+        if (err) throw err;
         updateRoster();
       });
     });
@@ -67,6 +69,7 @@ function updateRoster() {
       socket.get('name', callback);
     },
     function (err, names) {
+      if (err) throw err;
       broadcast('roster', names);
     }
   );
